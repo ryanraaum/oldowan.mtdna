@@ -1,7 +1,7 @@
-Read and write mtdna format.
+Human reference mtdna sequence in Python formats.
 
-oldowan.mtdna is a small collection of tools related to bioinformatic analysis
-of mitochondrial DNA (mtDNA).
+oldowan.mtdna contains the human revised Cambridge Reference Sequence (rCRS) in
+Python friendly formats.
 
 Installation Instructions
 =========================
@@ -30,12 +30,57 @@ your shell, this might go something like::
 Quick Start
 ===========
 
-TODO.
+This package provides the human rCRS in several Python friendly formats.
+
+  >>> from oldowan.mtdna import rCRS
+  >>> from oldowan.mtdna import rCRSlist
+  >>> from oldowan.mtdna import rCRSplus
+  >>> from oldowan.mtdna import rCRSplus_positions
+
+``rCRS`` is the raw sequence as a string::
+
+  >>> len(rCRS)
+  16569
+  >>> rCRS[0:10]
+  'GATCACAGGT'
+
+``rCRSlist`` is the rCRS sequence broken into a list. NOTE that this list is
+padded with a nonsense character in position 0 such that the indices match the
+standard biologial sequence position numbering (i.e. starting at 1 rather than
+0)::
+
+  >>> rCRSlist[0]
+  '#'
+  >>> rCRSlist[1]
+  'G'
+
+``rCRSplus`` is a partially repeat of the rCRS sequence. Because the mtDNA molecule is circular, it cannot be properly represented by a linear string. This might not be that big of an issue if experimentally derived mtDNA sequences generally do not span the break, BUT as it happens, the most commonly sequenced region of the mitochondrial genome (the control region) spans the point where the circular sequence is conventionally broken for the linear sequence. Thus, ``rCRSplus`` repeats 1000bp on either end of the molecule to facilitate sequence alignment across the break. The ``rCRSplus_positions`` list remaps the indices of ``rCRSplus`` onto the conventional position numbering of the rCRS.
+
+  >>> len(rCRSplus)
+  18638
+  >>> rCRSplus[1]
+  'A'
+  >>> rCRSlist[1]
+  'G'
+  >>> rCRSlist[rCRSplus_positions[1]]
+  'A'
+
+Finally, the oldowan.mtdna package provides indices to extract common mtDNA regions from the rCRS.
+
+  >>> from oldowan.mtdna import HVR1_indices
+  >>> from oldowan.mtdna import HVR2_indices
+  >>> from oldowan.mtdna import HVR1and2_indices
+  >>> from oldowan.mtdna import HVR1to2_indices
+  >>> from oldowan.mtdna import coding_indices
+  >>> from oldowan.mtdna import all_indices
+  
+  >>> hvr1 = ''.join(list(rCRSlist[x] for x in HVR1_indices))
+
 
 Release History
 ===============
 
-TODO (August 16, 2008)
+1.0.0 (March 25, 2009)
     initial release of module.
 
 .. _setuptools: http://peak.telecommunity.com/DevCenter/EasyInstall
