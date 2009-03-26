@@ -1,1 +1,1 @@
-include oldowan/mtdna/VERSION
+include oldowan/*/VERSION

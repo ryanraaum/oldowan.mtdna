@@ -1,14 +1,14 @@
 from setuptools import setup, find_packages
 import sys, os
 
+PACKAGE = 'mtdna'
+
+VERSION = open(os.path.join(os.path.dirname(os.path.realpath(__file__)),'oldowan', PACKAGE, 'VERSION')).read().strip()
+
 desc_lines = open('README', 'r').readlines()
 
-version_file = open(os.path.join(os.path.dirname(os.path.realpath(__file__)),'oldowan','mtdna', 'VERSION'))
-version = version_file.read().strip()
-version_file.close()
-
-setup(name='oldowan.mtdna',
-      version=version,
+setup(name='oldowan.%s' % PACKAGE,
+      version=VERSION,
       description=desc_lines[0],
       long_description=''.join(desc_lines[2:]),
       classifiers=[
@@ -28,7 +28,7 @@ setup(name='oldowan.mtdna',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=False,
       namespace_packages = ['oldowan'],
-      data_files=[("oldowan/mtdna", ["oldowan/mtdna/VERSION"])],
+      data_files=[("oldowan/%s" % PACKAGE, ["oldowan/%s/VERSION" % PACKAGE])],
       zip_safe=False,
       test_suite = 'nose.collector',
       )
